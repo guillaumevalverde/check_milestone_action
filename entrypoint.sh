@@ -21,25 +21,25 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 
 action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 pull_request=$(jq --raw-output .pull_request "$GITHUB_EVENT_PATH")
-number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-reviewer=$(jq --raw-output .pull_request.requested_reviewers.login "$GITHUB_EVENT_PATH")
+milestone=$(jq --raw-output .pull_request.milestone "$GITHUB_EVENT_PATH")
 
+echo "pr :"
+echo "${pull_request}"
+echo "milestone :"
 echo "${pull_request}"
 
-update_review_request() {
-  curl -sSL \
+pr=`  curl -sSL \
     -H "Content-Type: application/json" \
     -H "${AUTH_HEADER}" \
     -H "${API_HEADER}" \
-    -X $1 \
-    -d "{\"assignees\":[\"${reviewer}\"]}" \
-    "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${number}/assignees"
-}
+    -X "GET" \
+"https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}"`
 
-if [[ "$action" == "review_requested" ]]; then
-  update_review_request 'POST'
-elif [[ "$action" == "review_request_removed" ]]; then
-  update_review_request 'DELETE'
+milestone=`echo "${pr}" | jq '.milestone'`
+
+if [[ "$pr" == null ]]; then
+  echo "milestone should be set up"
+  exit 1
 else
   echo "Ignoring action ${action}"
   exit 0
