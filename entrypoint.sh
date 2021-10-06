@@ -26,16 +26,23 @@ milestone=$(jq --raw-output .pull_request.milestone "$GITHUB_EVENT_PATH")
 echo "pr :"
 echo "${pull_request}"
 echo "milestone :"
-echo "${pull_request}"
+echo "${milestone}"
 
-pr=`  curl -sSL \
+echo "get pr"
+pr=`curl -sSL \
     -H "Content-Type: application/json" \
     -H "${AUTH_HEADER}" \
     -H "${API_HEADER}" \
     -X "GET" \
 "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}"`
 
+
+echo "${pr}"
+
+echo "get milesotne"
 milestone=`echo "${pr}" | jq '.milestone'`
+
+echo "${milestone}"
 
 if [[ "$pr" == null ]]; then
   echo "milestone should be set up"
