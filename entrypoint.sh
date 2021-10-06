@@ -22,7 +22,7 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 pull_request=$(jq --raw-output .pull_request "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-reviewer=$(jq --raw-output .pull_request.requested_reviewers.login "$GITHUB_EVENT_PATH")
+
 
 echo "${pull_request}"
 
@@ -32,7 +32,7 @@ update_review_request() {
     -H "${AUTH_HEADER}" \
     -H "${API_HEADER}" \
     -X $1 \
-    -d "{\"assignees\":[\"${reviewer}\"]}" \
+    -d "{\"assignees\":[\"guillaumevalverde\"]}" \
     "https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${number}/assignees"
 }
 
