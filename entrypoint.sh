@@ -23,6 +23,14 @@ action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 pull_request=$(jq --raw-output .pull_request "$GITHUB_EVENT_PATH")
 milestone=$(jq --raw-output .pull_request.milestone.title "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+pr=`  curl -sSL \
+    -H "Content-Type: application/json" \
+    -H "${AUTH_HEADER}" \
+    -H "${API_HEADER}" \
+    -X "GET" \
+"https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}"`
+
+milestone=`echo "${pr}" | jq '.milestone.title'`
 
 echo "milestone :"
 echo "${milestone}"
