@@ -27,7 +27,7 @@ number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 echo "milestone :"
 echo "${milestone}"
 
-if [[  "$milestone" == "null"  ]];
+if [[  "$milestone" == "null"  ]]; then
   echo "milestone should be set up"
   exit 1
 else
