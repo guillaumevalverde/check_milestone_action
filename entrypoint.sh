@@ -44,7 +44,7 @@ milestone=`echo "${pr}" | jq '.milestone'`
 
 echo "${milestone}"
 
-if [[ "$pr" == null ]]; then
+if [ -z "$milestone" ]; then
   echo "milestone should be set up"
   exit 1
 else
