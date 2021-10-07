@@ -22,6 +22,7 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 pull_request=$(jq --raw-output .pull_request "$GITHUB_EVENT_PATH")
 milestone=$(jq --raw-output .pull_request.milestone "$GITHUB_EVENT_PATH")
+number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 
 echo "pr :"
 echo "${pull_request}"
