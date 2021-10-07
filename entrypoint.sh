@@ -28,7 +28,7 @@ echo "${pull_request}"
 echo "milestone :"
 echo "${milestone}"
 
-echo "get pr"
+echo "get pr https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${number}"
 pr=`curl -sSL \
     -H "Content-Type: application/json" \
     -H "${AUTH_HEADER}" \
